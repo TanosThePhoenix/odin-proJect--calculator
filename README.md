@@ -1,2 +1,2 @@
 # odin-proJect--calculator
-For Calculator in Odin Project
+[Calculator Project](https://www.theodinproject.com/lessons/foundations-calculator) for "The Odin Project".
