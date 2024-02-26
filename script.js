@@ -18,9 +18,19 @@ function pressNumber(e){
 		numDisplayed = 0;
 		typingWillStoreDisplayedNum = false;
 	}
-	let currentNum = numDisplayed.toString() + newNum.toString();
-	//TODO may want special case for decimal, negate input
-	numDisplayed = parseFloat(currentNum);
+
+	let currentNum = 0;
+
+	if(newNum == "negative"){
+		currentNum = "-" + numDisplayed.toString();
+		numDisplayed = parseFloat(currentNum);
+	} else if(newNum == "decimal" && !currentNum.toString().includes('.')){
+		currentNum = numDisplayed.toString() + '.';
+		numDisplayed = currentNum;
+	} else { //Regular digits instead of special cases
+		currentNum = numDisplayed.toString() + newNum.toString();
+		numDisplayed = parseFloat(currentNum);
+	}
 	displayNumDisplayed()
 }
 
