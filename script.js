@@ -11,9 +11,8 @@ let typingWillStoreDisplayedNum = true;
 
 const display = document.getElementById("display");
 
-function pressNumber(){
-	//TODO - input newNum into calculation
-	const newNum = 1;
+function pressNumber(e){
+	const newNum = e.currentTarget.id;
 	if(typingWillStoreDisplayedNum){
 		numStored = numDisplayed;
 		numDisplayed = 0;
