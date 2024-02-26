@@ -60,7 +60,7 @@ function pressFunction(){
 }
 
 function displayNumDisplayed(){
-	//TODO-fill this out
+	//TODO-Refactor this and places that use this into a set function
 	display.innerText = numDisplayed;
 }
 
