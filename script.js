@@ -5,15 +5,17 @@ function divide(a, b) { return a / b; }
 
 let numStored = 0;
 let numDisplayed = 0;
-let typingWillStoreDisplayedNum = true;
+let typingWillStoreDisplayedNum = true; 
 
 const display = document.getElementById("display");
 
 function pressNumber(e) {
 	const newNum = e.currentTarget.id;
+	console.log(`pressNumber - typingWillStoreDisplayNum:${typingWillStoreDisplayedNum}`);
 	if (typingWillStoreDisplayedNum) {
 		numStored = numDisplayed;
 		numDisplayed = 0;
+		displayNumDisplayed();
 		typingWillStoreDisplayedNum = false;
 	}
 
@@ -37,34 +39,64 @@ function pressNumber(e) {
 	displayNumDisplayed()
 }
 
-//TODO: store operation until next number is ready
+let funcStored = null;
 
-function pressFunction() {
-	//TODO - input correct function into calculation
-	const funcChosen = add;
-	const num1 = parseFloat(numStored);
-	const num2 = parseFloat(numDisplayed);
-	switch (funcChosen) {
-		case add:
-			numDisplayed = add(num1, num2);
-			break;
-		case subtract:
-			numDisplayed = subtract(num1, num2);
-			break;
-		case multiply:
-			numDisplayed = multiply(num1, num2);
-			break;
-		case divide:
-			numDisplayed = divide(num1, num2);
-			break;
+function activateStoredFunction() {
+	console.log('activateStoredFunction called\ncurrent stored function:'+funcStored);
+	if (funcStored) {
+		const num1 = parseFloat(numStored);
+		const num2 = parseFloat(numDisplayed);
+		switch (funcStored) {
+			case 'add':
+				console.log('add called from activateStoredFunction');
+				numDisplayed = add(num1, num2);
+				break;
+			case 'subtract':
+				numDisplayed = subtract(num1, num2);
+				break;
+			case 'multiply':
+				numDisplayed = multiply(num1, num2);
+				break;
+			case 'divide':
+				numDisplayed = divide(num1, num2);
+				break;
+		}
+		console.log(`current numDisplayed:${numDisplayed}`);
 	}
-	typingWillStoreDisplayedNum = true;
-	displayNumDisplayed()
+	resetDisplayNumAutoStore();
+	displayNumDisplayed();
+}
+
+function pressFunction(e) {
+	const funcChosen = e.currentTarget.id;
+	console.log(`DisplayedNum: ${numDisplayed} \nStoredNum:${numStored} \nfuncChosen:${funcChosen}`);
+	if (funcChosen == 'clear') {
+		numStored = 0;
+		numDisplayed = 0;
+		resetDisplayNumAutoStore()
+		funcStored = null;
+		displayNumDisplayed()
+	} else {
+		activateStoredFunction();
+		numStored = numDisplayed;
+		console.log(`numDisplayed now:${numDisplayed}`);
+		displayNumDisplayed();
+		if (funcChosen == 'equal') {
+			funcStored = null;
+		} else {
+			funcStored = funcChosen;
+		}
+	}
 }
 
 function displayNumDisplayed() {
 	//TODO-Refactor this and places that use this into a set function
 	display.innerText = numDisplayed;
+}
+
+function resetDisplayNumAutoStore() {
+	console.log('resetDisplayNumAutoStore called');
+	typingWillStoreDisplayedNum = true;
 }
 
 const numButtons = document.getElementsByClassName("number-button");
