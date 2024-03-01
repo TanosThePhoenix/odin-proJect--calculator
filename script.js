@@ -5,19 +5,13 @@ function divide(a, b) { return a / b; }
 
 let numStored = 0;
 let numDisplayed = 0;
-let typingWillStoreDisplayedNum = true; 
+let typingWillStoreDisplayedNum = true;
 
 const display = document.getElementById("display");
 
 function pressNumber(e) {
 	const newNum = e.currentTarget.id;
 	console.log(`pressNumber - typingWillStoreDisplayNum:${typingWillStoreDisplayedNum}`);
-	if (typingWillStoreDisplayedNum) {
-		numStored = numDisplayed;
-		numDisplayed = 0;
-		displayNumDisplayed();
-		typingWillStoreDisplayedNum = false;
-	}
 
 	let currentNum = numDisplayed;
 
@@ -29,12 +23,22 @@ function pressNumber(e) {
 			currentNum = "-" + numDisplayed.toString();
 			numDisplayed = parseFloat(currentNum);
 		}
-	} else if (newNum == "decimal" && !currentNum.toString().includes('.')) {
-		currentNum = numDisplayed.toString() + '.';
-		numDisplayed = currentNum;
-	} else { //Regular digits instead of special cases
-		currentNum = numDisplayed.toString() + newNum.toString();
-		numDisplayed = parseFloat(currentNum);
+	} else {
+
+		if (typingWillStoreDisplayedNum) {
+			numStored = numDisplayed;
+			numDisplayed = 0;
+			displayNumDisplayed();
+			typingWillStoreDisplayedNum = false;
+		}
+
+		if (newNum == "decimal" && !currentNum.toString().includes('.')) {
+			currentNum = numDisplayed.toString() + '.';
+			numDisplayed = currentNum;
+		} else { //Regular digits instead of special cases
+			currentNum = numDisplayed.toString() + newNum.toString();
+			numDisplayed = parseFloat(currentNum);
+		}
 	}
 	displayNumDisplayed()
 }
@@ -42,7 +46,7 @@ function pressNumber(e) {
 let funcStored = null;
 
 function activateStoredFunction() {
-	console.log('activateStoredFunction called\ncurrent stored function:'+funcStored);
+	console.log('activateStoredFunction called\ncurrent stored function:' + funcStored);
 	if (funcStored) {
 		const num1 = parseFloat(numStored);
 		const num2 = parseFloat(numDisplayed);
