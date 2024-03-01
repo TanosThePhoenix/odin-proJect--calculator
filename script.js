@@ -1,9 +1,7 @@
-function add(a, b){return a+b;}
-function subtract(a, b){return a-b;}
-function multiply(a, b){return a*b;}
-function divide(a, b){return a/b;}
-
-function negate(a){ return -a;}
+function add(a, b) { return a + b; }
+function subtract(a, b) { return a - b; }
+function multiply(a, b) { return a * b; }
+function divide(a, b) { return a / b; }
 
 let numStored = 0;
 let numDisplayed = 0;
@@ -11,20 +9,25 @@ let typingWillStoreDisplayedNum = true;
 
 const display = document.getElementById("display");
 
-function pressNumber(e){
+function pressNumber(e) {
 	const newNum = e.currentTarget.id;
-	if(typingWillStoreDisplayedNum){
+	if (typingWillStoreDisplayedNum) {
 		numStored = numDisplayed;
 		numDisplayed = 0;
 		typingWillStoreDisplayedNum = false;
 	}
 
-	let currentNum = 0;
+	let currentNum = numDisplayed;
 
-	if(newNum == "negative"){
-		currentNum = "-" + numDisplayed.toString();
-		numDisplayed = parseFloat(currentNum);
-	} else if(newNum == "decimal" && !currentNum.toString().includes('.')){
+	if (newNum == "negative") {
+		if (currentNum.toString()[0] == '-') {
+			currentNum = numDisplayed.toString().slice(1);
+			numDisplayed = parseFloat(currentNum);
+		} else {
+			currentNum = "-" + numDisplayed.toString();
+			numDisplayed = parseFloat(currentNum);
+		}
+	} else if (newNum == "decimal" && !currentNum.toString().includes('.')) {
 		currentNum = numDisplayed.toString() + '.';
 		numDisplayed = currentNum;
 	} else { //Regular digits instead of special cases
@@ -36,12 +39,12 @@ function pressNumber(e){
 
 //TODO: store operation until next number is ready
 
-function pressFunction(){
+function pressFunction() {
 	//TODO - input correct function into calculation
 	const funcChosen = add;
 	const num1 = parseFloat(numStored);
 	const num2 = parseFloat(numDisplayed);
-	switch(funcChosen){
+	switch (funcChosen) {
 		case add:
 			numDisplayed = add(num1, num2);
 			break;
@@ -59,7 +62,7 @@ function pressFunction(){
 	displayNumDisplayed()
 }
 
-function displayNumDisplayed(){
+function displayNumDisplayed() {
 	//TODO-Refactor this and places that use this into a set function
 	display.innerText = numDisplayed;
 }
@@ -67,10 +70,10 @@ function displayNumDisplayed(){
 const numButtons = document.getElementsByClassName("number-button");
 const funcButtons = document.getElementsByClassName("function-button");
 
-for(const b of numButtons){
+for (const b of numButtons) {
 	b.addEventListener('click', pressNumber);
 }
 
-for(const b of funcButtons){
+for (const b of funcButtons) {
 	b.addEventListener('click', pressFunction);
 }
