@@ -66,6 +66,7 @@ function activateStoredFunction() {
 				break;
 		}
 		console.log(`current numDisplayed:${numDisplayed}`);
+		numDisplayed = parseFloat(numDisplayed.toFixed(8)); //To prevent error propagation from floating point errors
 	}
 	resetDisplayNumAutoStore();
 	displayNumDisplayed();
