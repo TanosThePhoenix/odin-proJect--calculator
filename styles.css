@@ -1,0 +1,9 @@
+.button-row {
+	display: flex;
+	width: 300px;
+}
+
+.button-row>button {
+	flex: 1 1 50px;
+}
+
