@@ -32,7 +32,8 @@ function pressNumber(e) {
 			typingWillStoreDisplayedNum = false;
 		}
 
-		if (newNum == "decimal" && !currentNum.toString().includes('.')) {
+		if (newNum == "decimal" && !numDisplayed.toString().includes('.')) {
+			console.log(`Decimal pressed - type of numDisplayed:${typeof numDisplayed}`)
 			currentNum = numDisplayed.toString() + '.';
 			numDisplayed = currentNum;
 		} else { //Regular digits instead of special cases
