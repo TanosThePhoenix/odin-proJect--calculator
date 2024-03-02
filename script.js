@@ -1,7 +1,10 @@
 function add(a, b) { return a + b; }
 function subtract(a, b) { return a - b; }
 function multiply(a, b) { return a * b; }
-function divide(a, b) { return a / b; }
+function divide(a, b) { 
+	if(b != 0) return a / b;
+	return "Error: Can't Divide by Zero";
+}
 
 let numStored = 0;
 let numDisplayed = 0;
@@ -67,7 +70,9 @@ function activateStoredFunction() {
 				break;
 		}
 		console.log(`current numDisplayed:${numDisplayed}`);
-		numDisplayed = parseFloat(numDisplayed.toFixed(8)); //To prevent error propagation from floating point errors
+		//Only do next step if numDisplayed is actually a number and not error message
+		if(typeof numDisplayed === "number") numDisplayed = parseFloat(numDisplayed.toFixed(8));
+		//Line above is to prevent error propagation from floating point errors
 	}
 	resetDisplayNumAutoStore();
 	displayNumDisplayed();
